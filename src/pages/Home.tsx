@@ -5,6 +5,7 @@ import { useGetArtists } from "@/hooks/useGetArtists";
 import { MusicalNoteIcon, StarIcon } from "@heroicons/react/24/outline";
 import { useArtist } from "@/context/ArtistContext";
 import type { Artist } from "@/models/ArtistResponse";
+import { Container } from "@/components/Container";
 
 const BIGGEST_IMG_INDEX = 0;
 const SMALLEST_IMG_INDEX = 2;
@@ -12,8 +13,8 @@ const SMALLEST_IMG_INDEX = 2;
 export default function HomePage() {
   const navigate = useNavigate();
   const { data } = useGetArtists();
-  const [textInput, setTextInput] = useState("");
   const { setArtist } = useArtist();
+  const [textInput, setTextInput] = useState("");
 
   const filterArtists = data?.filter((artist) => {
     const name = artist.name.toLowerCase();
@@ -32,7 +33,7 @@ export default function HomePage() {
   };
 
   return (
-    <main className="bg-gradient-to-b from-slate-800 to-slate-600 min-h-screen w-full px-8 py-10">
+    <Container>
       <Input
         className="mb-6 text-gray-300"
         placeholder="Filtrar por artista"
@@ -43,7 +44,7 @@ export default function HomePage() {
         {filterArtists?.map((artist) => {
           return (
             <div
-              className="flex gap-2 hover:scale-105 hover:bg-slate-600 rounded-xl transition-all ease-in-out cursor-pointer"
+              className="flex gap-2 hover:scale-105 hover:bg-slate-700 rounded-xl transition-all ease-in-out cursor-pointer"
               key={artist.id}
               onClick={() => handleClick(artist)}
             >
@@ -71,6 +72,6 @@ export default function HomePage() {
           );
         })}
       </div>
-    </main>
+    </Container>
   );
 }
