@@ -5,7 +5,7 @@ export function useDefaultAPI(): AxiosInstance {
   const { accessToken } = useAuth();
 
   const api = axios.create({
-    baseURL: "https://api.spotify.com/v1/",
+    baseURL: "https://api.spotify.com/v1",
   });
 
   api.interceptors.request.use(
