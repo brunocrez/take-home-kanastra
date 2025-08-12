@@ -6,9 +6,7 @@ import { MusicalNoteIcon, StarIcon } from "@heroicons/react/24/outline";
 import { useArtist } from "@/context/ArtistContext";
 import type { Artist } from "@/models/ArtistResponse";
 import { Container } from "@/components/Container";
-
-const BIGGEST_IMG_INDEX = 0;
-const SMALLEST_IMG_INDEX = 2;
+import { BIGGEST_IMG_INDEX, SMALLEST_IMG_INDEX } from "@/utils/constants";
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -37,6 +35,7 @@ export default function HomePage() {
       <Input
         className="mb-6 text-gray-300"
         placeholder="Filtrar por artista"
+        value={textInput}
         onChange={(e) => setTextInput(e.target.value)}
       />
 

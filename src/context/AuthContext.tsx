@@ -26,8 +26,8 @@ export function AuthContextProvider({ children }: AuthContextProviderType) {
         "https://accounts.spotify.com/api/token",
         {
           grant_type: "client_credentials",
-          client_id: "d13463d7c0264a5c95d43f74b43170ad",
-          client_secret: "1e2bb09da07a4b3fad952f9d5a56b47f",
+          client_id: import.meta.env.VITE_SPOTIFY_CLIENT_ID,
+          client_secret: import.meta.env.VITE_SPOTIFY_CLIENT_SECRET,
         },
         {
           headers: {
