@@ -38,30 +38,75 @@ export default function HomePage() {
         <Skeleton className="w-full max-w-[350px] h-[36px] mb-6" />
       ) : (
         <Input
-          className="max-w-[350px] mb-6 text-gray-300"
+          className="max-w-[300px] mb-6 text-gray-300"
           placeholder="Filtrar por artista"
           value={textInput}
           onChange={(e) => setTextInput(e.target.value)}
         />
       )}
 
-      {isLoading ? (
-        <div className="flex flex-col gap-6">
-          {Array.from({ length: 6 }).map((_, idx) => (
-            <CardArtistLoading key={idx} />
-          ))}
-        </div>
-      ) : (
-        <div className="flex flex-col gap-6">
-          {filterArtists?.map((artist) => (
-            <CardArtist
-              key={artist.id}
-              artist={artist}
-              onClick={() => handleClick(artist)}
-            />
-          ))}
-        </div>
-      )}
+      {/** max-width: 640px */}
+      <div className="md:hidden">
+        {isLoading ? (
+          <div className="flex flex-col gap-6">
+            {Array.from({ length: 6 }).map((_, idx) => (
+              <CardArtistLoading key={idx} />
+            ))}
+          </div>
+        ) : (
+          <div className="flex flex-col gap-6">
+            {filterArtists?.map((artist) => (
+              <CardArtist
+                key={artist.id}
+                artist={artist}
+                onClick={() => handleClick(artist)}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/** max-width: 768px */}
+      <div className="hidden lg:hidden md:block">
+        {isLoading ? (
+          <div className="grid grid-cols-2 gap-6">
+            {Array.from({ length: 12 }).map((_, idx) => (
+              <CardArtistLoading key={idx} />
+            ))}
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 gap-6">
+            {filterArtists?.map((artist) => (
+              <CardArtist
+                key={artist.id}
+                artist={artist}
+                onClick={() => handleClick(artist)}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/** max-width: 1024px */}
+      <div className="hidden lg:block">
+        {isLoading ? (
+          <div className="grid grid-cols-3 gap-6">
+            {Array.from({ length: 12 }).map((_, idx) => (
+              <CardArtistLoading key={idx} />
+            ))}
+          </div>
+        ) : (
+          <div className="grid grid-cols-3 gap-6">
+            {filterArtists?.map((artist) => (
+              <CardArtist
+                key={artist.id}
+                artist={artist}
+                onClick={() => handleClick(artist)}
+              />
+            ))}
+          </div>
+        )}
+      </div>
     </Container>
   );
 }

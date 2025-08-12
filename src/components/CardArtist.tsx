@@ -10,7 +10,7 @@ type CardArtistProps = {
 export function CardArtist({ artist, onClick }: CardArtistProps) {
   return (
     <div
-      className="flex gap-2 hover:scale-105 hover:bg-slate-700 rounded-xl transition-all ease-in-out cursor-pointer"
+      className="flex gap-2 hover:scale-105 hover:bg-slate-700 rounded-xl transition-all ease-in-out cursor-pointer w-full max-w-[350px]"
       key={artist.id}
       onClick={onClick}
     >
