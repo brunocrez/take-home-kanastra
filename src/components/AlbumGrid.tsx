@@ -37,10 +37,10 @@ export function AlbumGrid({ artistId }: AlbumGridProps) {
   return (
     <div>
       {isLoading ? (
-        <Skeleton className="w-full h-9 mb-6" />
+        <Skeleton className="w-full max-w-[300px] h-9 mb-6" />
       ) : (
         <Input
-          className="mb-6 text-gray-300"
+          className="mb-6 text-gray-300 w-full max-w-[300px]"
           placeholder="Filtrar por álbum"
           value={textInput}
           onChange={(e) => setTextInput(e.target.value)}
@@ -48,13 +48,13 @@ export function AlbumGrid({ artistId }: AlbumGridProps) {
       )}
 
       {isLoading ? (
-        <div className="grid grid-cols-2 gap-4">
-          {Array.from({ length: 10 }).map((_, idx) => (
+        <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+          {Array.from({ length: 20 }).map((_, idx) => (
             <Skeleton key={idx} className="w-[140px] h-[132px]" />
           ))}
         </div>
       ) : (
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
           {filterAlbums?.map((album) => (
             <CardAlbum key={album.id} album={album} />
           ))}

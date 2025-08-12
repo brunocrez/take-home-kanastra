@@ -1,5 +1,6 @@
 import { AlbumGrid } from "@/components/AlbumGrid";
 import { Container } from "@/components/Container";
+import { MostPlayedTrack } from "@/components/MostPlayedTrack";
 import { Track } from "@/components/Track";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useArtist } from "@/context/ArtistContext";
@@ -14,16 +15,24 @@ export default function ArtistPage() {
 
   return (
     <>
-      <div>
-        <img src={artist?.bgImage} alt="artist background image" />
+      <div className="bg-gradient-to-br from-slate-600 to-slate-800 flex justify-center">
+        <div className="relative">
+          <img src={artist?.bgImage} alt="artist background image" />
+          <div className="absolute bottom-0 left-0 w-full bg-slate-900 p-3">
+            <h2 className="text-gray-200 text-sm lg:text-xl text-center">
+              {artist?.name}
+            </h2>
+          </div>
+        </div>
       </div>
+
       <Container>
         <div className="flex items-center gap-2 mb-6 pb-2 border-b-[1px]">
           <SpeakerWaveIcon className="w-8 h-8 text-gray-200" />
           <h2 className="text-2xl text-gray-200">Mais Tocadas</h2>
         </div>
 
-        <div className="mb-12">
+        <div className="mb-12 lg:hidden">
           {isLoadingTracks ? (
             <>
               {Array.from({ length: 5 }).map((_, idx) => (
@@ -36,6 +45,22 @@ export default function ArtistPage() {
                 <Track key={`track-${idx}`} track={track} position={idx} />
               ))}
             </>
+          )}
+        </div>
+
+        <div className="hidden lg:block mb-12">
+          {isLoadingTracks ? (
+            <div className="grid grid-cols-5 gap-6">
+              {Array.from({ length: 5 }).map((_, idx) => (
+                <Skeleton key={idx} className="w-full h-[200px]" />
+              ))}
+            </div>
+          ) : (
+            <div className="grid grid-cols-5 gap-6">
+              {tracks?.map((track, idx) => (
+                <MostPlayedTrack key={`track-${idx}`} track={track} />
+              ))}
+            </div>
           )}
         </div>
 
