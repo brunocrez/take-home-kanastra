@@ -64,7 +64,11 @@ export function AlbumGrid({ artistId }: AlbumGridProps) {
       {isLoading ? (
         <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
           {Array.from({ length: 20 }).map((_, idx) => (
-            <Skeleton key={idx} className="w-full h-[132px]" />
+            <Skeleton
+              data-testid="skeleton-albumns"
+              key={idx}
+              className="w-full h-[132px]"
+            />
           ))}
         </div>
       ) : (
