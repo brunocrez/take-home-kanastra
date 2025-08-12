@@ -1,6 +1,6 @@
 # Take Home - Kanastra
 
-Este projeto foi desenvolvido como parte de um teste técnico.
+Este projeto foi desenvolvido como parte de um teste técnico. Para visualizar a demonstração desta aplicação, acesse este [link](https://take-home-kanastra.vercel.app/).
 
 ## 📜 Pré-requisitos
 
