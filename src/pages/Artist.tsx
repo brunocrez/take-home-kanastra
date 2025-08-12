@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router";
 import { AlbumGrid } from "@/components/AlbumGrid";
 import { Container } from "@/components/Container";
 import { CardTrack } from "@/components/CardTrack";
@@ -8,10 +9,17 @@ import { useGetTopTracks } from "@/hooks/useGetTopTracks";
 import { QueueListIcon, SpeakerWaveIcon } from "@heroicons/react/24/outline";
 
 export default function ArtistPage() {
+  const navigate = useNavigate();
   const { artist } = useArtist();
-  const { data: tracks, isLoading: isLoadingTracks } = useGetTopTracks(
-    artist?.id ?? ""
-  );
+  const {
+    data: tracks,
+    isLoading: isLoadingTracks,
+    isError,
+  } = useGetTopTracks(artist?.id ?? "");
+
+  if (isError) {
+    navigate("/error");
+  }
 
   return (
     <>

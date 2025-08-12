@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router";
 import { useGetAlbums } from "@/hooks/useGetAlbums";
 import { LIMIT_PER_PAGE } from "@/utils/constants";
 import { Input } from "./ui/input";
@@ -15,10 +16,19 @@ type AlbumGridProps = {
 };
 
 export function AlbumGrid({ artistId }: AlbumGridProps) {
+  const navigate = useNavigate();
   const [offset, setOffset] = useState(0);
   const [currPage, setCurrPage] = useState(1);
   const [textInput, setTextInput] = useState("");
-  const { data: albums, isLoading } = useGetAlbums(artistId ?? "", offset);
+  const {
+    data: albums,
+    isLoading,
+    isError,
+  } = useGetAlbums(artistId ?? "", offset);
+
+  if (isError) {
+    navigate("/error");
+  }
 
   const filterAlbums =
     albums?.items.filter((album) => {
@@ -54,7 +64,7 @@ export function AlbumGrid({ artistId }: AlbumGridProps) {
       {isLoading ? (
         <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
           {Array.from({ length: 20 }).map((_, idx) => (
-            <Skeleton key={idx} className="w-[140px] h-[132px]" />
+            <Skeleton key={idx} className="w-full h-[132px]" />
           ))}
         </div>
       ) : (

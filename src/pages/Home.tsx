@@ -8,14 +8,18 @@ import { BIGGEST_IMG_INDEX } from "@/utils/constants";
 import { CardArtistLoading } from "@/components/CardArtistLoading";
 import { CardArtist } from "@/components/CardArtist";
 import { Skeleton } from "@/components/ui/skeleton";
-import type { Artist } from "@/models/ArtistResponse";
 import { EmptyState } from "@/components/EmptyState";
+import type { Artist } from "@/models/ArtistResponse";
 
 export default function HomePage() {
   const navigate = useNavigate();
-  const { data, isLoading } = useGetArtists();
+  const { data, isLoading, isError } = useGetArtists();
   const { setArtist } = useArtist();
   const [textInput, setTextInput] = useState("");
+
+  if (isError) {
+    navigate("/error");
+  }
 
   const filterArtists =
     data?.filter((artist) => {

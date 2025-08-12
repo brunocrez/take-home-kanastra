@@ -8,6 +8,8 @@ import { ArtistContextProvider } from "./context/ArtistContext.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import HomePage from "./pages/Home.tsx";
 import ArtistPage from "./pages/Artist.tsx";
+import NotFoundPage from "./pages/NotFound.tsx";
+import ErrorPage from "./pages/Error.tsx";
 
 const client = new QueryClient();
 
@@ -15,6 +17,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     Component: HomePage,
+    errorElement: <NotFoundPage />,
   },
   {
     path: "artist",
@@ -24,6 +27,10 @@ const router = createBrowserRouter([
         Component: ArtistPage,
       },
     ],
+  },
+  {
+    path: "error",
+    Component: ErrorPage,
   },
 ]);
 
