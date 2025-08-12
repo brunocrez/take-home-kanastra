@@ -1,6 +1,6 @@
 import { AlbumGrid } from "@/components/AlbumGrid";
 import { Container } from "@/components/Container";
-import { MostPlayedTrack } from "@/components/MostPlayedTrack";
+import { CardTrack } from "@/components/CardTrack";
 import { Track } from "@/components/Track";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useArtist } from "@/context/ArtistContext";
@@ -58,7 +58,7 @@ export default function ArtistPage() {
           ) : (
             <div className="grid grid-cols-5 gap-6">
               {tracks?.map((track, idx) => (
-                <MostPlayedTrack key={`track-${idx}`} track={track} />
+                <CardTrack key={`track-${idx}`} track={track} />
               ))}
             </div>
           )}

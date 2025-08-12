@@ -1,13 +1,12 @@
 import { useState } from "react";
-import { Button } from "./ui/button";
 import { useGetAlbums } from "@/hooks/useGetAlbums";
-import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
 import { LIMIT_PER_PAGE } from "@/utils/constants";
 import { Input } from "./ui/input";
 import { Skeleton } from "./ui/skeleton";
 import { CardAlbum } from "./CardAlbum";
 import type { AlbumResponse } from "@/models/AlbumResponse";
 import { EmptyState } from "./EmptyState";
+import { PaginationControl } from "./PaginationControl";
 
 type AlbumGridProps = {
   albums?: AlbumResponse | undefined;
@@ -17,6 +16,7 @@ type AlbumGridProps = {
 
 export function AlbumGrid({ artistId }: AlbumGridProps) {
   const [offset, setOffset] = useState(0);
+  const [currPage, setCurrPage] = useState(1);
   const [textInput, setTextInput] = useState("");
   const { data: albums, isLoading } = useGetAlbums(artistId ?? "", offset);
 
@@ -29,11 +29,13 @@ export function AlbumGrid({ artistId }: AlbumGridProps) {
   const handleNext = () => {
     setTextInput("");
     setOffset((prev) => prev + LIMIT_PER_PAGE);
+    setCurrPage((prev) => prev + 1);
   };
 
   const handlePrev = () => {
     setTextInput("");
     setOffset((prev) => prev - LIMIT_PER_PAGE);
+    setCurrPage((prev) => prev - 1);
   };
 
   return (
@@ -63,26 +65,17 @@ export function AlbumGrid({ artistId }: AlbumGridProps) {
         </div>
       )}
 
-      {filterAlbums?.length < 1 && (
+      {filterAlbums?.length < 1 && !isLoading && (
         <EmptyState message="Não encontramos nenhum álbum com esse nome." />
       )}
 
-      <div className="flex gap-2 mt-6 justify-end">
-        <Button
-          disabled={!albums?.previous || isLoading}
-          className="cursor-pointer bg-white hover:bg-white hover:scale-105"
-          onClick={handlePrev}
-        >
-          <ArrowLeftIcon className="text-slate-800" />
-        </Button>
-        <Button
-          disabled={!albums?.next || isLoading}
-          className="cursor-pointer bg-white hover:bg-white hover:scale-105"
-          onClick={handleNext}
-        >
-          <ArrowRightIcon className="text-slate-800" />
-        </Button>
-      </div>
+      <PaginationControl
+        albums={albums}
+        isLoading={isLoading}
+        onClickNext={handleNext}
+        onClickPrev={handlePrev}
+        currPage={currPage}
+      />
     </div>
   );
 }

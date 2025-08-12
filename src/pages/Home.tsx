@@ -110,7 +110,7 @@ export default function HomePage() {
         )}
       </div>
 
-      {filterArtists.length < 1 && (
+      {filterArtists.length < 1 && !isLoading && (
         <EmptyState message="Não encontramos nenhum artista com esse nome." />
       )}
     </Container>
