@@ -10,14 +10,14 @@ type CardArtistProps = {
 export function CardArtist({ artist, onClick }: CardArtistProps) {
   return (
     <div
+      data-testid="card-artist"
       className="flex gap-2 hover:scale-105 hover:bg-slate-700 rounded-xl transition-all ease-in-out cursor-pointer w-full max-w-[350px]"
-      key={artist.id}
       onClick={onClick}
     >
       <img
         className="rounded-xl"
         src={artist.images[SMALLEST_IMG_INDEX].url}
-        alt="artist image"
+        alt={`image of the artist ${artist.name}`}
         width={120}
         height={120}
       />

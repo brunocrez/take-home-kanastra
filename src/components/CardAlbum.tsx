@@ -11,6 +11,7 @@ export function CardAlbum({ album }: CardAlbumProps) {
       <div className="flex flex-col gap-2 items-center p-2">
         <img
           src={album.images[SMALLEST_IMG_INDEX].url}
+          alt="album cover image"
           width={64}
           height={64}
           className="rounded-md"
@@ -18,7 +19,9 @@ export function CardAlbum({ album }: CardAlbumProps) {
         <span className="w-full text-sm text-center overflow-hidden text-ellipsis whitespace-nowrap">
           {album.name}
         </span>
-        <span className="text-xs">{album.release_date.split("-")[0]}</span>
+        <span data-testid="album-release-year" className="text-xs">
+          {album.release_date.split("-")[0]}
+        </span>
       </div>
     </div>
   );
