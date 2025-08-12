@@ -2,15 +2,17 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import { Input } from "@/components/ui/input";
 import { useGetArtists } from "@/hooks/useGetArtists";
-import { MusicalNoteIcon, StarIcon } from "@heroicons/react/24/outline";
 import { useArtist } from "@/context/ArtistContext";
-import type { Artist } from "@/models/ArtistResponse";
 import { Container } from "@/components/Container";
-import { BIGGEST_IMG_INDEX, SMALLEST_IMG_INDEX } from "@/utils/constants";
+import { BIGGEST_IMG_INDEX } from "@/utils/constants";
+import { CardArtistLoading } from "@/components/CardArtistLoading";
+import { CardArtist } from "@/components/CardArtist";
+import { Skeleton } from "@/components/ui/skeleton";
+import type { Artist } from "@/models/ArtistResponse";
 
 export default function HomePage() {
   const navigate = useNavigate();
-  const { data } = useGetArtists();
+  const { data, isLoading } = useGetArtists();
   const { setArtist } = useArtist();
   const [textInput, setTextInput] = useState("");
 
@@ -32,45 +34,34 @@ export default function HomePage() {
 
   return (
     <Container>
-      <Input
-        className="mb-6 text-gray-300"
-        placeholder="Filtrar por artista"
-        value={textInput}
-        onChange={(e) => setTextInput(e.target.value)}
-      />
+      {isLoading ? (
+        <Skeleton className="w-full max-w-[350px] h-[36px] mb-6" />
+      ) : (
+        <Input
+          className="max-w-[350px] mb-6 text-gray-300"
+          placeholder="Filtrar por artista"
+          value={textInput}
+          onChange={(e) => setTextInput(e.target.value)}
+        />
+      )}
 
-      <div className="flex flex-col gap-6">
-        {filterArtists?.map((artist) => {
-          return (
-            <div
-              className="flex gap-2 hover:scale-105 hover:bg-slate-700 rounded-xl transition-all ease-in-out cursor-pointer"
+      {isLoading ? (
+        <div className="flex flex-col gap-6">
+          {Array.from({ length: 6 }).map((_, idx) => (
+            <CardArtistLoading key={idx} />
+          ))}
+        </div>
+      ) : (
+        <div className="flex flex-col gap-6">
+          {filterArtists?.map((artist) => (
+            <CardArtist
               key={artist.id}
+              artist={artist}
               onClick={() => handleClick(artist)}
-            >
-              <img
-                className="rounded-xl"
-                src={artist.images[SMALLEST_IMG_INDEX].url}
-                alt="artist image"
-                width={120}
-                height={120}
-              />
-              <div className="flex flex-col gap-2 mt-2">
-                <div className="flex items-center gap-2">
-                  <MusicalNoteIcon className="w-4 h-4 text-white" />
-                  <p className="text-gray-100 text-base">{artist.name}</p>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <StarIcon className="w-4 h-4 text-white" />
-                  <p className="text-gray-200 text-sm">
-                    Popularidade: {artist.popularity}
-                  </p>
-                </div>
-              </div>
-            </div>
-          );
-        })}
-      </div>
+            />
+          ))}
+        </div>
+      )}
     </Container>
   );
 }

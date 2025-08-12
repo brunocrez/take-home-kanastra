@@ -1,6 +1,6 @@
 import type { Image } from "./Image";
 
-type AlbumItem = {
+export type AlbumItem = {
   id: string;
   album_type: "single" | "album";
   total_tracks: number;

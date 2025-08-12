@@ -1,13 +1,16 @@
 import { AlbumGrid } from "@/components/AlbumGrid";
 import { Container } from "@/components/Container";
 import { Track } from "@/components/Track";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useArtist } from "@/context/ArtistContext";
 import { useGetTopTracks } from "@/hooks/useGetTopTracks";
 import { QueueListIcon, SpeakerWaveIcon } from "@heroicons/react/24/outline";
 
 export default function ArtistPage() {
   const { artist } = useArtist();
-  const { data: tracks } = useGetTopTracks(artist?.id ?? "");
+  const { data: tracks, isLoading: isLoadingTracks } = useGetTopTracks(
+    artist?.id ?? ""
+  );
 
   return (
     <>
@@ -21,9 +24,19 @@ export default function ArtistPage() {
         </div>
 
         <div className="mb-12">
-          {tracks?.map((track, idx) => (
-            <Track key={`track-${idx}`} track={track} position={idx} />
-          ))}
+          {isLoadingTracks ? (
+            <>
+              {Array.from({ length: 5 }).map((_, idx) => (
+                <Skeleton key={idx} className="w-full h-[44px] mb-4" />
+              ))}
+            </>
+          ) : (
+            <>
+              {tracks?.map((track, idx) => (
+                <Track key={`track-${idx}`} track={track} position={idx} />
+              ))}
+            </>
+          )}
         </div>
 
         <div className="flex items-center gap-2 mb-6 pb-2 border-b-[1px]">
