@@ -9,6 +9,7 @@ import { CardArtistLoading } from "@/components/CardArtistLoading";
 import { CardArtist } from "@/components/CardArtist";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { Artist } from "@/models/ArtistResponse";
+import { EmptyState } from "@/components/EmptyState";
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -16,10 +17,11 @@ export default function HomePage() {
   const { setArtist } = useArtist();
   const [textInput, setTextInput] = useState("");
 
-  const filterArtists = data?.filter((artist) => {
-    const name = artist.name.toLowerCase();
-    return name.includes(textInput.toLowerCase());
-  });
+  const filterArtists =
+    data?.filter((artist) => {
+      const name = artist.name.toLowerCase();
+      return name.includes(textInput.toLowerCase());
+    }) ?? [];
 
   const handleClick = (artist: Artist) => {
     setArtist({
@@ -107,6 +109,10 @@ export default function HomePage() {
           </div>
         )}
       </div>
+
+      {filterArtists.length < 1 && (
+        <EmptyState message="Não encontramos nenhum artista com esse nome." />
+      )}
     </Container>
   );
 }

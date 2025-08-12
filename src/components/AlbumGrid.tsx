@@ -7,6 +7,7 @@ import { Input } from "./ui/input";
 import { Skeleton } from "./ui/skeleton";
 import { CardAlbum } from "./CardAlbum";
 import type { AlbumResponse } from "@/models/AlbumResponse";
+import { EmptyState } from "./EmptyState";
 
 type AlbumGridProps = {
   albums?: AlbumResponse | undefined;
@@ -19,10 +20,11 @@ export function AlbumGrid({ artistId }: AlbumGridProps) {
   const [textInput, setTextInput] = useState("");
   const { data: albums, isLoading } = useGetAlbums(artistId ?? "", offset);
 
-  const filterAlbums = albums?.items.filter((album) => {
-    const name = album.name.toLowerCase();
-    return name.includes(textInput.toLowerCase());
-  });
+  const filterAlbums =
+    albums?.items.filter((album) => {
+      const name = album.name.toLowerCase();
+      return name.includes(textInput.toLowerCase());
+    }) ?? [];
 
   const handleNext = () => {
     setTextInput("");
@@ -59,6 +61,10 @@ export function AlbumGrid({ artistId }: AlbumGridProps) {
             <CardAlbum key={album.id} album={album} />
           ))}
         </div>
+      )}
+
+      {filterAlbums?.length < 1 && (
+        <EmptyState message="Não encontramos nenhum álbum com esse nome." />
       )}
 
       <div className="flex gap-2 mt-6 justify-end">
